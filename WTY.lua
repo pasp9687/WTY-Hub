@@ -372,6 +372,13 @@ end)
 local Section = MainTab:CreateSection("능력")
 
 local Button = MainTab:CreateButton({
+   Name = "Speed Hub (스피드 핵)",
+   Callback = function()
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/pasp9687/Spedd-Hub/main/Speed%20Hub.lua"))()
+   end,
+})
+
+local Button = MainTab:CreateButton({
    Name = "어드민 권한",
    Callback = function()
    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
@@ -385,7 +392,7 @@ local Button = MainTab:CreateButton({
 Tele.RequiresHandle = false
 Tele.RobloxLocked = true
 Tele.Name = "TPTool"
-Tele.ToolTip = "Teleport Tool"
+Tele.ToolTip = "아이템을 들고 원하는곳을 클릭하세요."
 Tele.Equipped:connect(function(Mouse)
 	Mouse.Button1Down:connect(function()
 		if Mouse.Target then
@@ -671,7 +678,7 @@ humanoidRootPart.CFrame = CFrame.new(targetPosition)
    end,
 })
 
-local MainTab = Window:CreateTab("🏠-기지", nil) -- Title, Image
+local MainTab = Window:CreateTab("🏠 · 기지", nil) -- Title, Image
 
 local Section = MainTab:CreateSection("TP")
 
@@ -931,3 +938,310 @@ humanoidRootPart.CFrame = CFrame.new(targetPosition)
    end,
 })
 
+    local Button = MainTab:CreateButton({
+   Name = "Yankee 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-4020, 65, -316) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Zulu 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-4102, 65, -1379) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+local MainTab = Window:CreateTab("⚙️ · 탱크 부품", nil) -- Title, Image
+
+local MainSection = MainTab:CreateSection("탱크 부품 TP")
+
+    local Button = MainTab:CreateButton({
+   Name = "Alpha 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-971, 22, -4725) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Bravo 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-22, 22, -4797) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Charlie 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(955, 22, -4571) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Delta 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(2095, 22, -3760) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Echo 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(2713, 22, -2803) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Foxtrot 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(2923, 22, -1591) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Golf 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(3254, 22, -366) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Hotel 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(3134, 22, 761) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Juliet 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(2786, 22, 1963) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Kilo 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(2363, 22, 3038) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Lima 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(806, 22, 3564) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Omega 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-516, 22, 3810) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Romeo 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-1607, 22, 3528) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Sierra 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-2581, 22, 2323) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Tango 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-3032, 22, 1271) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Victor 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-3580, 22, 401) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})
+
+    local Button = MainTab:CreateButton({
+   Name = "Yankee 기지  TP",
+   Callback = function()
+   local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 🟢 이동할 좌표 (여기에 원하는 좌표를 입력하세요)
+local targetPosition = Vector3.new(-3890, 23, -507) -- X, Y, Z 값을 원하는 위치로 변경
+
+-- 텔레포트 실행
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+   end,
+})

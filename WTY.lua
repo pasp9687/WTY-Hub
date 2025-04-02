@@ -50,109 +50,6 @@ local Button = MainTab:CreateButton({
    local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
-            local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
--- HP 바 생성 함수
-local function createHealthBar(character)
-    -- 캐릭터의 중요한 파트가 존재하는지 확인
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-    local rootPart = character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Head")
-    
-    if not humanoid or not rootPart then
-        repeat
-            humanoid = character:FindFirstChildOfClass("Humanoid")
-            rootPart = character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Head")
-            task.wait(0.1)  -- 기다렸다가 다시 확인
-        until humanoid and rootPart
-    end
-
-    -- 기존 HP 바 제거
-    if character:FindFirstChild("HealthBarGui") then
-        character.HealthBarGui:Destroy()
-    end
-
-    -- BillboardGui 생성 (플레이어 아래에 표시)
-    local billboard = Instance.new("BillboardGui")
-    billboard.Name = "HealthBarGui"
-    billboard.Adornee = rootPart
-    billboard.Size = UDim2.new(4, 0, 1, 0)  -- 크기 조절
-    billboard.StudsOffset = Vector3.new(0, -4, 0)  -- 플레이어 하단에 위치
-    billboard.AlwaysOnTop = true  -- 항상 위에 표시
-    billboard.Parent = character
-
-    -- HP 바 배경
-    local bgBar = Instance.new("Frame")
-    bgBar.Size = UDim2.new(1, 0, 0.2, 0)
-    bgBar.Position = UDim2.new(0, 0, 0.5, 0)
-    bgBar.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    bgBar.BorderSizePixel = 0
-    bgBar.Parent = billboard
-
-    -- HP 바 (실제 체력 표시)
-    local hpBar = Instance.new("Frame")
-    hpBar.Size = UDim2.new(1, 0, 1, 0)
-    hpBar.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- 초기 색상 (초록)
-    hpBar.BorderSizePixel = 0
-    hpBar.Parent = bgBar
-
-    -- HP 바 업데이트 함수
-    local function updateHealth()
-        if humanoid and humanoid.Health > 0 then
-            local healthPercent = humanoid.Health / humanoid.MaxHealth
-            hpBar.Size = UDim2.new(healthPercent, 0, 1, 0)
-
-            -- 체력에 따라 색상 변경 (초록 → 노랑 → 빨강)
-            if healthPercent > 0.6 then
-                hpBar.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- 초록
-            elseif healthPercent > 0.3 then
-                hpBar.BackgroundColor3 = Color3.fromRGB(255, 255, 0)  -- 노랑
-            else
-                hpBar.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- 빨강
-            end
-        end
-    end
-
-    -- 체력 변화 감지
-    humanoid.HealthChanged:Connect(updateHealth)
-    updateHealth()
-
-    -- 플레이어가 죽으면 HP 바 제거
-    humanoid.Died:Connect(function()
-        if character:FindFirstChild("HealthBarGui") then
-            character.HealthBarGui:Destroy()
-        end
-    end)
-end
-
--- 캐릭터가 생성될 때 HP 바 추가
-local function onCharacterAdded(player, character)
-    task.spawn(function()
-        createHealthBar(character)
-    end)
-end
-
--- 플레이어 추가 감지
-local function onPlayerAdded(player)
-    player.CharacterAdded:Connect(function(character)
-        onCharacterAdded(player, character)
-    end)
-    
-    -- 이미 존재하는 플레이어 적용
-    if player.Character then
-        onCharacterAdded(player, player.Character)
-    end
-end
-
--- 기존 플레이어 적용
-for _, player in ipairs(Players:GetPlayers()) do
-    onPlayerAdded(player)
-end
-
--- 새로운 플레이어 감지
-Players.PlayerAdded:Connect(function(player)
-    player.CharacterAdded:Connect(onCharacterAdded)
-end)
 
 -- 캐릭터에 윤곽선 강조 추가
 local function updateHighlight(character, team)
@@ -253,6 +150,140 @@ end
 -- 기존 플레이어들에게 적용
 for _, player in ipairs(Players:GetPlayers()) do
     onPlayerAdded(player)
+end
+
+
+            local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+
+-- 체력에 따른 색상 반환 함수
+local function getHealthColor(healthPercent)
+    if healthPercent > 0.75 then
+        return Color3.fromRGB(0, 255, 0) -- 초록색
+    elseif healthPercent > 0.5 then
+        return Color3.fromRGB(255, 200, 0) -- 노란색
+    elseif healthPercent > 0.25 then
+        return Color3.fromRGB(255, 100, 0) -- 주황색
+    else
+        return Color3.fromRGB(255, 0, 0) -- 빨간색
+    end
+end
+
+-- 모든 플레이어의 HP 바를 갱신하는 함수
+local function createHealthBar(character)
+    if not character then return end
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoid or not rootPart then return end
+
+    -- 기존 HP 바 제거 후 다시 생성 (중복 방지)
+    local oldBar = rootPart:FindFirstChild("HealthBar")
+    if oldBar then oldBar:Destroy() end
+
+    -- BillboardGui 생성
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "HealthBar"
+    billboard.Adornee = rootPart
+    billboard.Size = UDim2.new(3.5, 0, 0.3, 0)
+    billboard.StudsOffset = Vector3.new(0, -3.5, 0)
+    billboard.AlwaysOnTop = true
+    billboard.MaxDistance = 2000
+    billboard.Parent = rootPart
+
+    -- 바 배경
+    local bgFrame = Instance.new("Frame")
+    bgFrame.Size = UDim2.new(1, 0, 1, 0)
+    bgFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    bgFrame.BackgroundTransparency = 0.3
+    bgFrame.BorderSizePixel = 0
+    bgFrame.Parent = billboard
+
+    -- HP 바
+    local healthBar = Instance.new("Frame")
+    local healthPercent = humanoid.Health / humanoid.MaxHealth
+    healthBar.Size = UDim2.new(healthPercent, 0, 1, 0) -- **현재 체력 비율 반영**
+    healthBar.BackgroundColor3 = getHealthColor(healthPercent) -- **체력 색상 반영**
+    healthBar.BorderSizePixel = 0
+    healthBar.Parent = bgFrame
+
+    -- **플레이어 강조 (Outline) 추가**
+    local highlight = rootPart:FindFirstChild("Highlight")
+    if not highlight then
+        highlight = Instance.new("Highlight")
+        highlight.Name = "Highlight"
+        highlight.FillTransparency = 0.7
+        highlight.OutlineTransparency = 0
+        highlight.Parent = rootPart
+    end
+    highlight.OutlineColor = getHealthColor(healthPercent) -- **체력에 따라 강조 색 변경**
+
+    -- HP 실시간 업데이트
+    humanoid.HealthChanged:Connect(function()
+        local newHealthPercent = humanoid.Health / humanoid.MaxHealth
+
+        -- 크기 업데이트
+        local tween = TweenService:Create(healthBar, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {Size = UDim2.new(math.clamp(newHealthPercent, 0, 1), 0, 1, 0)})
+        tween:Play()
+
+        -- 색상 변화
+        local newColor = getHealthColor(newHealthPercent)
+        local colorTween = TweenService:Create(healthBar, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {BackgroundColor3 = newColor})
+        colorTween:Play()
+
+        -- 강조 색도 동기화
+        highlight.OutlineColor = newColor
+    end)
+end
+
+-- **3초마다 HP 바 강조 갱신 (현재 체력 반영)**
+local function updateHealthBars()
+    for _, player in pairs(Players:GetPlayers()) do
+        if player.Character then
+            local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid and humanoid.Health > 0 then
+                createHealthBar(player.Character) -- **현재 체력 기반으로 강조 업데이트**
+            end
+        end
+    end
+end
+
+-- **플레이어 추가 및 재설정 처리**
+local function onCharacterAdded(player)
+    if not player then return end
+
+    player.CharacterAppearanceLoaded:Connect(function(character)
+        createHealthBar(character)
+    end)
+
+    if player.Character then
+        createHealthBar(player.Character)
+    end
+end
+
+-- **팀 변경 & 캐릭터 죽음 감지 후 HP 바 자동 적용**
+local function ensureHealthBars()
+    for _, player in pairs(Players:GetPlayers()) do
+        if player.Character then
+            createHealthBar(player.Character)
+        end
+    end
+end
+
+-- **기존 플레이어 처리**
+for _, player in pairs(Players:GetPlayers()) do
+    onCharacterAdded(player)
+end
+
+-- **새로운 플레이어 감지**
+Players.PlayerAdded:Connect(function(player)
+    onCharacterAdded(player)
+end)
+
+-- **3초마다 HP 바 자동 갱신 (현재 체력 유지)**
+while true do
+    updateHealthBars()
+    wait(3)
 end
 
 Players.PlayerAdded:Connect(onPlayerAdded)

@@ -45,33 +45,80 @@ Rayfield:Notify({
  })
 
 local Button = MainTab:CreateButton({
-   Name = "플레이어 ESP",
+   Name = "플레이어(몸,윤곽선) ESP",
    Callback = function()
-   local Players = game:GetService("Players")
+local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
+-- 플레이어 강조 적용 함수 (팀 색상 기반)
+local function applyHighlight(player)
+    if not player.Character then return end
+    local character = player.Character
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if not rootPart then return end
 
--- 캐릭터에 윤곽선 강조 추가
-local function updateHighlight(character, team)
     -- 기존 강조 삭제
     local existingHighlight = character:FindFirstChild("TeamHighlight")
     if existingHighlight then
         existingHighlight:Destroy()
     end
 
-    if team then
-        local teamColor = team.TeamColor.Color
-        local highlight = Instance.new("Highlight")
-        highlight.Name = "TeamHighlight"
-        highlight.Parent = character
-        highlight.FillTransparency = 0.6
-        highlight.OutlineTransparency = 0.2
-        highlight.FillColor = teamColor  -- 팀 색상
-        highlight.OutlineColor = Color3.fromRGB(255, 255, 0)  -- 윤곽선 노란색
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "TeamHighlight"
+    highlight.Parent = character  -- 전체 캐릭터에 적용 (사라지지 않도록)
+    highlight.FillTransparency = 0.6
+    highlight.OutlineTransparency = 0.2
+    highlight.OutlineColor = Color3.fromRGB(255, 255, 0) -- 윤곽선 노란색
+    if player.Team then
+        highlight.FillColor = player.Team.TeamColor.Color
+    else
+        highlight.FillColor = Color3.new(1, 1, 1)
     end
 end
 
--- 닉네임 & 거리 텍스트 강조 추가
+-- 플레이어가 입장하거나 캐릭터가 추가될 때 바로 적용
+local function onPlayerAdded(player)
+    player.CharacterAdded:Connect(function(character)
+        character:WaitForChild("HumanoidRootPart", 10)
+        wait(0.1)  -- 캐릭터 로딩 안정성을 위해 짧은 딜레이\n        applyHighlight(player)
+    end)
+    if player.Character then
+        applyHighlight(player)
+    end
+    -- 팀 변경 시 즉시 강조 갱신
+    player:GetPropertyChangedSignal("Team"):Connect(function()
+        if player.Character then
+            applyHighlight(player)
+        end
+    end)
+end
+
+for _, player in ipairs(Players:GetPlayers()) do
+    onPlayerAdded(player)
+end
+
+Players.PlayerAdded:Connect(onPlayerAdded)
+
+-- 폴백: 5초마다 모든 플레이어 강조 재적용 (누락 방지)
+while true do
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player.Character then
+            applyHighlight(player)
+        end
+    end
+    wait(0.1)
+end
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "플레이어 닉네임,거리(m) ESP",
+   Callback = function()
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+-- 닉네임 & 거리 강조 추가
 local function ensureTextHighlight(player)
     RunService.RenderStepped:Connect(function()
         if player.Character and player.Character.PrimaryPart then
@@ -121,37 +168,33 @@ local function ensureTextHighlight(player)
     end)
 end
 
--- 캐릭터 생성 시 윤곽선 + 텍스트 강조 추가
-local function onCharacterAdded(player, character)
-    if player.Team then
-        updateHighlight(character, player.Team)
-    end
-
-    -- 팀 변경 감지하여 강조 업데이트
-    player:GetPropertyChangedSignal("Team"):Connect(function()
-        updateHighlight(character, player.Team)
-    end)
-
-    -- 텍스트 강조 유지
-    ensureTextHighlight(player)
-end
-
 -- 플레이어 추가 시 처리
 local function onPlayerAdded(player)
-    player.CharacterAdded:Connect(function(character)
-        onCharacterAdded(player, character)
+    player.CharacterAdded:Connect(function()
+        ensureTextHighlight(player)
     end)
 
     if player.Character then
-        onCharacterAdded(player, player.Character)
+        ensureTextHighlight(player)
     end
 end
 
--- 기존 플레이어들에게 적용
+-- 기존 플레이어 적용
 for _, player in ipairs(Players:GetPlayers()) do
     onPlayerAdded(player)
 end
 
+-- 새로 들어오는 플레이어 감지
+Players.PlayerAdded:Connect(onPlayerAdded)
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "플레이어 HP바(체력) ESP",
+   Callback = function()
+ local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 
             local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -288,8 +331,10 @@ end
 
 Players.PlayerAdded:Connect(onPlayerAdded)
 
+
    end,
 })
+
 
 local MainSection = MainTab:CreateSection("에임")
 
